@@ -1,0 +1,41 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+    <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+    <main id="main-container">
+        <header>
+            <h1>Manage Employees</h1>
+            <button class="btn green" type="button">
+                <i class="material-icons">&#xE147;</i>
+                Add New Employees</button>
+        </header>
+        
+        <div class="input-container">
+            <input type="text" placeholder="Filter...">
+        </div>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        <input type="checkbox">
+                    </th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Address</th>
+                    <th>Phone</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+        </table>
+    </main>
+    
+</body>
+</html>

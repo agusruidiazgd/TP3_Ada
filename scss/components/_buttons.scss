@@ -1,0 +1,23 @@
+.btn {
+    background-color: $color-green;
+    color: $color-white;
+    border: none;
+    border-radius: 2px;
+    font-family: $font;
+    font-size: $font-xs;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: $padding-xxs $padding-xs;
+    &:focus, &:active{
+        outline: none; 
+    }
+    &:hover {
+        background-color: darken(#5cb85c, 10%);
+    }
+    i {
+        font-size: 21px;
+        margin-right: 5px;
+    }
+}

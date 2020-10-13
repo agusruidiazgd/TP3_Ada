@@ -1,0 +1,25 @@
+@import "../abstract/variables";
+
+#main-container {
+    background-color: $color-white;
+    border-radius: 4px;
+    margin: 0 auto;
+    overflow: hidden;
+    width: 90%;
+    header {
+        background-color: $color-blue;
+        color: $color-white;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: $padding-m $padding-l;
+        h1 {
+            margin: 0;
+            font-size: $font-m;
+        }
+    }
+    .input-container {
+        display: flex;
+        justify-content: flex-end;
+    }
+}

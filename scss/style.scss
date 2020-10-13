@@ -1,0 +1,11 @@
+@import "../scss/abstract/variables";
+@import "../scss/sections/main-container";
+@import "../scss/components/buttons";
+
+
+body {
+    background-color: $color-grey-light;
+    font-family: $font;
+    margin: 0;
+    padding-top: $padding-xl;
+}
