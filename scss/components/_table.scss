@@ -1,0 +1,43 @@
+.table-container{
+    padding: 0 $padding-l $padding-l $padding-l;
+    #table-content{
+        width: 100%;
+        border-collapse: collapse;
+        
+        thead{
+            
+            color:$color-blue;
+            font-size: $font-xs;
+            border-bottom: 2px solid #ddd;
+            .thead{
+                height: 49px;
+                text-align: left;
+                padding: 12px 15px;
+                vertical-align: middle;
+                &.name{
+                    width:233px;
+                }
+                &.email{
+                    width:210px;
+                }
+                &.address{
+                    width:266px;
+                }
+                &.phone{
+                    width:231px;
+                }
+                &.actions{
+                    width:100px;
+                }
+            }
+            .input-table{
+                width:60px;
+                input{//TODO: googlear como cambiar estilos al input
+                    width:13px;
+                    height: 13px;
+                }
+            }
+            
+        }
+    }
+}

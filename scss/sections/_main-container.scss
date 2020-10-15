@@ -5,7 +5,7 @@
     border-radius: 4px;
     margin: 0 auto;
     overflow: hidden;
-    width: 90%;
+    width: 1170px;
     header {
         background-color: $color-blue;
         color: $color-white;
@@ -16,10 +16,24 @@
         h1 {
             margin: 0;
             font-size: $font-m;
+            font-weight: 200;
         }
     }
     .input-container {
         display: flex;
         justify-content: flex-end;
+        padding:$padding-l;
+        input{
+            padding:$padding-xs $padding-s ;
+            border-radius: 4px;
+            border: 1px solid $color-grey;
+            color:#555;
+            box-shadow: 0 1px 1px rgba(0,0,0,.075);
+            font-family: $font;
+            font-size: 14px;
+            box-sizing: border-box;
+            height: 34px;
+            width: 343px;
+        }
     }
 }

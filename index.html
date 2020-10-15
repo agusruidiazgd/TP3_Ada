@@ -10,7 +10,7 @@
 <body>
     <main id="main-container">
         <header>
-            <h1>Manage Employees</h1>
+            <h1>Manage <b>Employees</b></h1>
             <button class="btn green" type="button">
                 <i class="material-icons">&#xE147;</i>
                 Add New Employees</button>
@@ -19,22 +19,24 @@
         <div class="input-container">
             <input type="text" placeholder="Filter...">
         </div>
+        <div class="table-container">
+            <table id="table-content">
+                <thead>
+                    <tr>
+                        <th class="input-table">
+                            <input type="checkbox">
+                        </th>
+                        <th class="thead name">Name</th>
+                        <th class="thead email">Email</th>
+                        <th class="thead address">Address</th>
+                        <th class="thead phone">Phone</th>
+                        <th class="thead actions">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody"></tbody>
+            </table>
+        </div>
         
-        <table>
-            <thead>
-                <tr>
-                    <th>
-                        <input type="checkbox">
-                    </th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Address</th>
-                    <th>Phone</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody id="tbody"></tbody>
-        </table>
     </main>
     
 </body>
