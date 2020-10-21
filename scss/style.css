@@ -51,22 +51,6 @@
     font-size: 21px;
     margin-right: 5px; }
 
-.btn-green, .btn-red {
-  width: 38px;
-  height: 38px;
-  padding: 4px;
-  border-radius: 50%;
-  border: none;
-  cursor: pointer;
-  background-color: #5cb85c;
-  color: white;
-  margin: 5px; }
-  .btn-green i, .btn-red i {
-    font-size: 18px; }
-
-.btn-red {
-  background-color: #B71C1C; }
-
 .table-container {
   padding: 0 25px 25px 25px; }
   .table-container #table-content {
@@ -102,3 +86,5 @@ body {
   font-family: "Varela Round", sans-serif;
   margin: 0;
   padding-top: 35px; }
+
+/*# sourceMappingURL=style.css.map */

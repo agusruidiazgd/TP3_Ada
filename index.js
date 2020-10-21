@@ -26,6 +26,26 @@ const crearFila = (dato) =>{
 
     const tAction = document.createElement('td'); //TODO: poner icono boton etc !!!!!!!!!!!!
 
+    const buttonEdit = document.createElement('button');
+    buttonEdit.classList.add("btn-green");
+    const iEdit = document.createElement('i');
+    iEdit.innerHTML = "&#xE254;";
+    iEdit.classList.add("material-icons");
+    iEdit.title="Edit";    
+
+    const buttonDelete = document.createElement('button');
+    buttonDelete.classList.add("btn-red");
+    const iDelete = document.createElement('i');
+    iDelete.innerHTML = "&#xE872;";
+    iDelete.classList.add("material-icons");
+    iDelete.title="Delete";
+
+    buttonEdit.appendChild(iEdit);
+    tAction.appendChild(buttonEdit);
+    buttonDelete.appendChild(iDelete);
+    tAction.appendChild(buttonDelete);
+   
+
     tCheckbox.appendChild(checkbox);
     trow.appendChild(tCheckbox);
     trow.appendChild(tName);
