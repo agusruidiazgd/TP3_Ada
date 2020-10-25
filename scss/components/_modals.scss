@@ -1,1 +1,102 @@
-/// estilar modales
+@import "../abstract/variables";
+
+.modal-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .overlay {
+        background-color: rgba(0,0,0,0.5);
+        height: 100vh;
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100vw;
+        z-index: 50;
+    }
+    .modal-content {
+        border-radius: 4px;
+        background-color: $color-white;
+        color: $color-blue;
+        box-shadow: 0 5px 15px rgba(0,0,0,.5);
+        overflow: hidden;
+        width: 398px;
+        z-index: 100;
+        header {
+            background-color: $color-white !important;  
+            color: $color-blue !important;
+            border-bottom: 1px solid $color-grey;
+            .close-modal-btn {
+                background-color: transparent;  
+                border: none;
+                font-family: $font;
+                font-size: 21px;
+                font-weight: 700;
+                padding: 0;
+                outline: none;
+                color: $color-grey; 
+                &:focus, &:active{
+                    outline: none; 
+                }
+                &:hover {
+                    color: darken(#cccccc, 10%);
+                }
+            }
+        }
+        footer {
+            display: flex;
+            justify-content: flex-end;
+            background-color: $color-grey-light;
+            .btn {
+                margin-left: $margin-xxxs;
+                padding: 6px 12px;
+                height: 34px;
+                width: 100px;
+                &.cancel-btn {
+                    background-color: $color-white;
+                    border: 1px solid $color-grey;
+                    color:#555;
+                    &:hover {
+                        background-color: darken(#cccccc, 10%);
+                        border: 1px solid rgba($color: #000000, $alpha: 0.6)
+                    }
+                }
+            }
+        }
+        h2 {
+            font-size: 18px;
+            margin: 0;
+        }
+        header, form, footer {
+            box-sizing: border-box;
+            padding: 20px 30px; 
+        }
+        form {
+            border-bottom: 1px solid $color-grey;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin: 0;
+            label {
+                font-size: 13px;
+                margin-bottom: 5px;
+            }
+            input, textarea {  
+                border-radius: 4px;
+                border: 1px solid $color-grey;
+                color:#555;
+                font-family: $font;
+                font-size: 14px;
+                box-sizing: border-box;
+                padding:$padding-xs $padding-s;
+                width: 100%;
+                margin-bottom: 15px;
+            }
+            input {
+                height: 34px;
+            }
+            textarea {
+                height: 54px;
+            }
+        }
+    }
+}
