@@ -41,6 +41,10 @@ const crearFila = (dato) =>{
     iDelete.title="Delete";
 
     buttonDelete.addEventListener("click", () => {
+        //TODO: generar un div con las clases y cosas que lleva el modal de las chicas.
+        //donde la data que se cargue sea dato.fullname dato.id dato.phone ................
+        //dentro de este modal hay un botton que hay que ponerle un addevent listener
+
         //sacamos del html:
         eliminarFila(dato.id);
         //sacamos de la api:

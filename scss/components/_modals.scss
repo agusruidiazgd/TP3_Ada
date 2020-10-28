@@ -1,7 +1,7 @@
 @import "../abstract/variables";
 
 .modal-container {
-    display: flex;
+    display: flex; //para que no se vea
     justify-content: center;
     align-items: center;
     .overlay {
