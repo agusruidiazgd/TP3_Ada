@@ -1,6 +1,25 @@
 
 let datos = [];
 
+const showModal = () =>{
+    const modal = document.querySelector('#modal-delete');
+    modal.classList.add("modal-on");
+}
+
+const hideModal = () =>{
+    const modal = document.querySelector('#modal-delete');
+    modal.classList.remove("modal-on");
+}
+
+const eliminarDato = async (dato) =>{
+    try{
+        const res = await axios.delete(`https://5f7c70d600bd74001690ac5e.mockapi.io/users/${dato.id}`)
+        console.log('Usuario eliminado:', dato)
+    }catch(err){
+        console.log(err);
+    }
+}
+
 const crearFila = (dato) =>{
     const tbody = document.querySelector(`#tbody`);
     
@@ -41,16 +60,30 @@ const crearFila = (dato) =>{
     iDelete.title="Delete";
 
     buttonDelete.addEventListener("click", () => {
+        showModal();
+        document.querySelector('#delete-name').innerText = dato.fullname;
+        document.querySelector('#delete-email').innerText = dato.email;
+        document.querySelector('#delete-address').innerText = dato.address;
+        document.querySelector('#delete-phone').innerText = dato.phone;
+        
+        document.querySelector('#confirm-delete').addEventListener('click', ()=>{
+            eliminarFila(dato.id);//saco del html
+            eliminarDato(dato);//elimino info de la api
+            hideModal();
+        })
+
+        document.querySelector('#cancel-delete').addEventListener('click', hideModal);
+            
         //TODO: generar un div con las clases y cosas que lleva el modal de las chicas.
         //donde la data que se cargue sea dato.fullname dato.id dato.phone ................
         //dentro de este modal hay un botton que hay que ponerle un addevent listener
 
         //sacamos del html:
-        eliminarFila(dato.id);
-        //sacamos de la api:
-        axios.delete(`https://5f7c70d600bd74001690ac5e.mockapi.io/users/${dato.id}`)
-            .then(res => console.log(dato))
-            .catch(err => console.log(err)); 
+        // eliminarFila(dato.id);
+        // //sacamos de la api:
+        // axios.delete(`https://5f7c70d600bd74001690ac5e.mockapi.io/users/${dato.id}`)
+        //     .then(res => console.log(dato))
+        //     .catch(err => console.log(err)); 
     });
 
 
@@ -71,6 +104,7 @@ const crearFila = (dato) =>{
 
 }
 
+
 const cargarDatos = async () =>{
     try{
         const res = await axios.get('https://5f7c70d600bd74001690ac5e.mockapi.io/users')
@@ -79,8 +113,6 @@ const cargarDatos = async () =>{
         datos.map( dato =>{
             crearFila(dato);
         })
-        
-
     }catch(err){
         console.log('ERROR:',err);
     }
@@ -118,12 +150,11 @@ const filtrarUsuarios = () =>{
     const searchParam = document.querySelector("#input-filter-user").value.toLowerCase();
     console.log(searchParam);
     if(searchParam.length < 3) return; 
-    //if(searchParam == "") cargarDatos();
+    // if(searchParam == "") {
+    //     eliminarTodasLasFilas('.tr-style');
+    //     cargarDatos();
+    // }
     filtrarDatos(searchParam);
-}
-
-const eliminarUser = () =>{
-
 }
 
 const onLoad = () => {

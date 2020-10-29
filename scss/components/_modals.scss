@@ -1,9 +1,17 @@
 @import "../abstract/variables";
 
 .modal-container {
-    display: flex; //para que no se vea
+    display: none; //para que no se vea
     justify-content: center;
     align-items: center;
+    &.modal-on{
+        display: flex;
+        form{
+            label{
+                font-weight:700!important;
+            }
+        }
+    }
     .overlay {
         background-color: rgba(0,0,0,0.5);
         height: 100vh;
@@ -21,6 +29,9 @@
         overflow: hidden;
         width: 398px;
         z-index: 100;
+        p{
+            margin:0 0 5px 0 ;
+        }
         header {
             background-color: $color-white !important;  
             color: $color-blue !important;
