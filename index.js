@@ -84,7 +84,7 @@ const addEmployee = async () => {
     const phoneToArray = phone.split("");
     
     phoneToArray.forEach(i => {
-        if (validPhoneChars.indexOf(i) == -1) throw new Error("El número ingresado no tiene formato válido.");
+        if (validPhoneChars.findIndex(i => phoneToArray.includes(i)) == -1) throw new Error("El número ingresado no tiene formato válido.");
     })
 
     try {
