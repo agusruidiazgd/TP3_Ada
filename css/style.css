@@ -100,11 +100,12 @@
 .modal-container {
   display: none;
   justify-content: center;
-  align-items: center; }
-  .modal-container.modal-on {
-    display: flex; }
-    .modal-container.modal-on form label {
-      font-weight: 700 !important; }
+  align-items: center;
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: 100vw; }
   .modal-container .overlay {
     background-color: rgba(0, 0, 0, 0.5);
     height: 100vh;
