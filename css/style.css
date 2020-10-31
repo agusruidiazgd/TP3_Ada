@@ -76,26 +76,34 @@
       color: #435d7d;
       font-size: 13px;
       border-bottom: 2px solid #ddd; }
-      .table-container #table-content thead .thead {
-        height: 49px;
-        text-align: left;
-        padding: 12px 15px;
-        vertical-align: middle; }
-        .table-container #table-content thead .thead.name {
-          width: 233px; }
-        .table-container #table-content thead .thead.email {
-          width: 210px; }
-        .table-container #table-content thead .thead.address {
-          width: 266px; }
-        .table-container #table-content thead .thead.phone {
-          width: 231px; }
-        .table-container #table-content thead .thead.actions {
-          width: 100px; }
-      .table-container #table-content thead .input-table {
-        width: 60px; }
-        .table-container #table-content thead .input-table input {
-          width: 13px;
-          height: 13px; }
+    .table-container #table-content .thead {
+      height: 49px;
+      text-align: left;
+      padding: 12px 15px;
+      vertical-align: middle; }
+      .table-container #table-content .thead.name {
+        width: 233px; }
+      .table-container #table-content .thead.email {
+        width: 210px; }
+      .table-container #table-content .thead.address {
+        width: 266px; }
+      .table-container #table-content .thead.phone {
+        width: 231px; }
+      .table-container #table-content .thead.actions {
+        width: 100px; }
+    .table-container #table-content .input-table {
+      width: 60px; }
+      .table-container #table-content .input-table input {
+        width: 13px;
+        height: 13px; }
+    .table-container #table-content td:first-child {
+      padding: 12px 15px;
+      text-align: left; }
+    .table-container #table-content td {
+      font-size: 13px;
+      text-align: left;
+      padding-left: 15px;
+      vertical-align: middle; }
 
 .modal-container {
   display: none;

@@ -9,35 +9,52 @@
             color:$color-blue;
             font-size: $font-xs;
             border-bottom: 2px solid #ddd;
-            .thead{
-                height: 49px;
-                text-align: left;
-                padding: 12px 15px;
-                vertical-align: middle;
-                &.name{
-                    width:233px;
-                }
-                &.email{
-                    width:210px;
-                }
-                &.address{
-                    width:266px;
-                }
-                &.phone{
-                    width:231px;
-                }
-                &.actions{
-                    width:100px;
-                }
-            }
-            .input-table{
-                width:60px;
-                input{//TODO: googlear como cambiar estilos al input
-                    width:13px;
-                    height: 13px;
-                }
-            }
-            
         }
+        .thead{
+            height: 49px;
+            text-align: left;
+            padding: 12px 15px;
+            vertical-align: middle;
+            &.name{
+                width:233px;
+            }
+            &.email{
+                width:210px;
+            }
+            &.address{
+                width:266px;
+            }
+            &.phone{
+                width:231px;
+            }
+            &.actions{
+                width:100px;
+            }
+        }
+        .input-table{
+            width:60px;
+            input{//TODO: googlear como cambiar estilos al input
+                width:13px;
+                height: 13px;
+            }
+        }
+        td:first-child{
+            //background-color:crimson;
+            padding: 12px 15px;
+            text-align: left;
+        }
+        td{
+            font-size: $font-xs;
+            text-align: left;
+            padding-left: 15px;
+            vertical-align: middle;
+
+        }
+            
+
+        
+            
+        
+        
     }
 }

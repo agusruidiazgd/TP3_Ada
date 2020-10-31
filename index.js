@@ -1,13 +1,19 @@
 let datos = [];
 
-const showModal = () =>{
+const showModalDelete = () =>{
     const modal = document.querySelector('#modal-delete');
-    modal.classList.add("modal-on");
+    modal.style.display = "flex";
 }
 
-const hideModal = () =>{
-    const modal = document.querySelector('#modal-delete');
-    modal.classList.remove("modal-on");
+const showModal = () => {
+    const modal = document.querySelector(".modal-container");
+    modal.style.display = "flex";  
+}
+
+const closeModal = () => {
+    const modals = document.querySelectorAll(".modal-container");
+    modals.forEach(modal => modal.style.display = "none")
+    //modals.style.display = "none";
 }
 
 const eliminarDato = async (dato) =>{
@@ -59,7 +65,8 @@ const crearFila = (dato) =>{
     iDelete.title="Delete";
 
     buttonDelete.addEventListener("click", () => {
-        showModal();
+        showModalDelete();
+
         document.querySelector('#delete-name').innerText = dato.fullname;
         document.querySelector('#delete-email').innerText = dato.email;
         document.querySelector('#delete-address').innerText = dato.address;
@@ -68,21 +75,12 @@ const crearFila = (dato) =>{
         document.querySelector('#confirm-delete').addEventListener('click', ()=>{
             eliminarFila(dato.id);//saco del html
             eliminarDato(dato);//elimino info de la api
-            hideModal();
+            closeModal();
         })
 
-        document.querySelector('#cancel-delete').addEventListener('click', hideModal);
+        document.querySelector('#cancel-delete').addEventListener('click', closeModal);
             
-        //TODO: generar un div con las clases y cosas que lleva el modal de las chicas.
-        //donde la data que se cargue sea dato.fullname dato.id dato.phone ................
-        //dentro de este modal hay un botton que hay que ponerle un addevent listener
 
-        //sacamos del html:
-        // eliminarFila(dato.id);
-        // //sacamos de la api:
-        // axios.delete(`https://5f7c70d600bd74001690ac5e.mockapi.io/users/${dato.id}`)
-        //     .then(res => console.log(dato))
-        //     .catch(err => console.log(err)); 
     });
 
 
@@ -90,7 +88,6 @@ const crearFila = (dato) =>{
     tAction.appendChild(buttonEdit);
     buttonDelete.appendChild(iDelete);
     tAction.appendChild(buttonDelete);
-   
 
     tCheckbox.appendChild(checkbox);
     trow.appendChild(tCheckbox);
@@ -110,7 +107,7 @@ const cargarDatos = async () =>{
         datos.map( dato =>{
             crearFila(dato);
         })
-       }catch(err){
+    }catch(err){
         console.log('ERROR:',err);
     }
 }
@@ -136,16 +133,19 @@ const filtrarDatos = async (searchParam) =>{
         datos.map( dato =>{
             crearFila(dato);
         })
-        
+    }catch(err){
+        console.log("ERROR AL FILTRAR DATOS:", err);
+    }
+}
 
 const filtrarUsuarios = () =>{
     const searchParam = document.querySelector("#input-filter-user").value.toLowerCase();
     console.log(searchParam);
+    if(searchParam.length == 0) {
+        eliminarTodasLasFilas('.tr-style');
+        cargarDatos();
+    }
     if(searchParam.length < 3) return; 
-    // if(searchParam == "") {
-    //     eliminarTodasLasFilas('.tr-style');
-    //     cargarDatos();
-    // }
     filtrarDatos(searchParam);
 }
 
@@ -165,9 +165,8 @@ const addEmployee = async () => {
     const phoneToArray = phone.split("");
     
     phoneToArray.forEach(i => {
-        if (validPhoneChars.findIndex(i => phoneToArray.includes(i)) == -1) throw new Error("El número ingresado no tiene formato válido.");
-    })
-
+        if (validPhoneChars.findIndex(validChar => phoneToArray.includes(validChar)) == false) throw new Error("El número ingresado no tiene formato válido."); 
+    });
     try {
         const postData = {
             fullname,
@@ -184,22 +183,14 @@ const addEmployee = async () => {
     }
 }
 
-const showModal = () => {
-    const modal = document.querySelector(".modal-container");
-    modal.style.display = "flex";  
-}
 
-const closeModal = () => {
-    const modal = document.querySelector(".modal-container");
-    modal.style.display = "none";
-  }
 
 
 const onLoad = () => {
     cargarDatos();
 
-    document.querySelector("#btn-filter-user").addEventListener("click" ,filtrarUsuarios);
-  
+    document.querySelector("#btn-filter-user").addEventListener("click",filtrarUsuarios);
+
     const addEmployeeButton = document.querySelector('#add-employee-button'); 
     addEmployeeButton.addEventListener("click", () => showModal());
 
@@ -210,4 +201,8 @@ const onLoad = () => {
     closeButtons.forEach(btn => {
         btn.addEventListener("click", () => closeModal());
     })
+
+    // document.querySelector('#confirm-delete').addEventListener('click', closeModal);
+    // document.querySelector('#cancel-delete').addEventListener('click', closeModal);
+}
 
