@@ -5,15 +5,26 @@ const showModalDelete = () =>{
     modal.style.display = "flex";
 }
 
+let isEditModal = false
+
 const showModal = () => {
     const modal = document.querySelector(".modal-container");
+    if (isEditModal) {
+        document.querySelector("#title-modal").innerText = "Edit user";
+        document.querySelector("#add-button").innerText = "Save";
+        editarFila();
+        isEditModal = false;
+    }
+    else {
+        document.querySelector("#title-modal").innerText = "Add new employee";
+        document.querySelector("#add-button").innerText = "Add";
+    }
     modal.style.display = "flex";  
 }
 
 const closeModal = () => {
     const modals = document.querySelectorAll(".modal-container");
     modals.forEach(modal => modal.style.display = "none")
-    //modals.style.display = "none";
 }
 
 const eliminarDato = async (dato) =>{
@@ -52,10 +63,29 @@ const crearFila = (dato) =>{
 
     const buttonEdit = document.createElement('button');
     buttonEdit.classList.add("btn-green");
+    buttonEdit.classList.add("btn-edit");
+    buttonEdit.addEventListener("click", () => {
+            isEditModal = true;
+            showModal();
+            document.querySelector('#input-name').value = dato.fullname;
+            document.querySelector('#input-email').value = dato.email;
+            document.querySelector('#input-address').innerText = dato.address;
+            document.querySelector('#input-phone').value = dato.phone;
+
+            //RENOMBRAR ADD BUTTON EN HTML Y TODAS LAS OTRAS
+            document.querySelector('#add-button').addEventListener('click', ()=>{
+            
+            //////PENDIENTE /////
+            editarFila(dato.id);//saco del html
+            editarDato(dato);//editar info de la api REVISARRR!!
+            })
+        } 
+    );
+    
     const iEdit = document.createElement('i');
     iEdit.innerHTML = "&#xE254;";
     iEdit.classList.add("material-icons");
-    iEdit.title="Edit";    
+    iEdit.title="Edit";  
 
     const buttonDelete = document.createElement('button');
     buttonDelete.classList.add("btn-red");
@@ -82,7 +112,6 @@ const crearFila = (dato) =>{
             
 
     });
-
 
     buttonEdit.appendChild(iEdit);
     tAction.appendChild(buttonEdit);
@@ -122,6 +151,15 @@ const eliminarTodasLasFilas = (fila) =>{
     for(let i of list){
         i.remove();
     }
+}
+
+////////// FUNCIÓN EDIT USER /////////////
+const editarFila = (idUser) => {
+    const userAEditar = document.querySelector(`#user-${idUser}`);
+    console.log(userAEditar);
+
+
+    // AGREGAR ACA LA FUNCION EDIT!    
 }
 
 const filtrarDatos = async (searchParam) =>{
@@ -164,9 +202,11 @@ const addEmployee = async () => {
     const validPhoneChars = [" ", "-", 1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
     const phoneToArray = phone.split("");
     
-    phoneToArray.forEach(i => {
-        if (validPhoneChars.findIndex(validChar => phoneToArray.includes(validChar)) == false) throw new Error("El número ingresado no tiene formato válido."); 
-    });
+    //REVISAR VALIDACION!!!!
+    //phoneToArray.forEach(i => {
+    //  if (validPhoneChars.findIndex(validChar => phoneToArray.includes(validChar)) == false) throw new Error("El número ingresado no tiene formato válido."); 
+    //});
+
     try {
         const postData = {
             fullname,
@@ -177,14 +217,10 @@ const addEmployee = async () => {
         const res = await axios.post("https://5f7c70d600bd74001690ac5e.mockapi.io/users", postData);
         const newEmployee = res.data;
         crearFila(newEmployee);
-        console.log(newEmployee);
     } catch(err) {
         console.log('ERROR AL CARGAR NEW EMPLOYEE:',err);
     }
 }
-
-
-
 
 const onLoad = () => {
     cargarDatos();
