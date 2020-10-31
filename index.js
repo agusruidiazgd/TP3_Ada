@@ -1,11 +1,30 @@
 let datos = [];
 
+const showModal = () =>{
+    const modal = document.querySelector('#modal-delete');
+    modal.classList.add("modal-on");
+}
+
+const hideModal = () =>{
+    const modal = document.querySelector('#modal-delete');
+    modal.classList.remove("modal-on");
+}
+
+const eliminarDato = async (dato) =>{
+    try{
+        const res = await axios.delete(`https://5f7c70d600bd74001690ac5e.mockapi.io/users/${dato.id}`)
+        console.log('Usuario eliminado:', dato)
+    }catch(err){
+        console.log(err);
+    }
+}
+
 const crearFila = (dato) =>{
     const tbody = document.querySelector(`#tbody`);
     
     const trow = document.createElement("tr");
     trow.className = 'tr-style'; // TODO: estilar tr-style !!!!!!!!!!!!!!!!!!!!!!!!!!
-    //trow.id = `Producto-${idProd}`;
+    trow.id = `user-${dato.id}`;
     const tCheckbox = document.createElement('td');
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
@@ -39,6 +58,34 @@ const crearFila = (dato) =>{
     iDelete.classList.add("material-icons");
     iDelete.title="Delete";
 
+    buttonDelete.addEventListener("click", () => {
+        showModal();
+        document.querySelector('#delete-name').innerText = dato.fullname;
+        document.querySelector('#delete-email').innerText = dato.email;
+        document.querySelector('#delete-address').innerText = dato.address;
+        document.querySelector('#delete-phone').innerText = dato.phone;
+        
+        document.querySelector('#confirm-delete').addEventListener('click', ()=>{
+            eliminarFila(dato.id);//saco del html
+            eliminarDato(dato);//elimino info de la api
+            hideModal();
+        })
+
+        document.querySelector('#cancel-delete').addEventListener('click', hideModal);
+            
+        //TODO: generar un div con las clases y cosas que lleva el modal de las chicas.
+        //donde la data que se cargue sea dato.fullname dato.id dato.phone ................
+        //dentro de este modal hay un botton que hay que ponerle un addevent listener
+
+        //sacamos del html:
+        // eliminarFila(dato.id);
+        // //sacamos de la api:
+        // axios.delete(`https://5f7c70d600bd74001690ac5e.mockapi.io/users/${dato.id}`)
+        //     .then(res => console.log(dato))
+        //     .catch(err => console.log(err)); 
+    });
+
+
     buttonEdit.appendChild(iEdit);
     tAction.appendChild(buttonEdit);
     buttonDelete.appendChild(iDelete);
@@ -63,9 +110,43 @@ const cargarDatos = async () =>{
         datos.map( dato =>{
             crearFila(dato);
         })
-    }catch(err){
+       }catch(err){
         console.log('ERROR:',err);
     }
+}
+
+const eliminarFila = (idUser) => {
+    const userAeliminar = document.querySelector(`#user-${idUser}`);
+    userAeliminar.remove();
+}
+
+const eliminarTodasLasFilas = (fila) =>{
+    let list = document.querySelectorAll(fila);
+    for(let i of list){
+        i.remove();
+    }
+}
+
+const filtrarDatos = async (searchParam) =>{
+    try{
+        const res = await axios.get(`https://5f7c70d600bd74001690ac5e.mockapi.io/users/?search=${searchParam}`);
+        eliminarTodasLasFilas('.tr-style');
+        datos = res.data;
+        console.log(datos);
+        datos.map( dato =>{
+            crearFila(dato);
+        })
+        
+
+const filtrarUsuarios = () =>{
+    const searchParam = document.querySelector("#input-filter-user").value.toLowerCase();
+    console.log(searchParam);
+    if(searchParam.length < 3) return; 
+    // if(searchParam == "") {
+    //     eliminarTodasLasFilas('.tr-style');
+    //     cargarDatos();
+    // }
+    filtrarDatos(searchParam);
 }
 
 const addEmployee = async () => {
@@ -111,11 +192,14 @@ const showModal = () => {
 const closeModal = () => {
     const modal = document.querySelector(".modal-container");
     modal.style.display = "none";
-}
+  }
+
 
 const onLoad = () => {
     cargarDatos();
 
+    document.querySelector("#btn-filter-user").addEventListener("click" ,filtrarUsuarios);
+  
     const addEmployeeButton = document.querySelector('#add-employee-button'); 
     addEmployeeButton.addEventListener("click", () => showModal());
 
@@ -126,4 +210,4 @@ const onLoad = () => {
     closeButtons.forEach(btn => {
         btn.addEventListener("click", () => closeModal());
     })
-}
+

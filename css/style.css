@@ -98,7 +98,7 @@
           height: 13px; }
 
 .modal-container {
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
   position: fixed;
@@ -122,6 +122,8 @@
     overflow: hidden;
     width: 398px;
     z-index: 100; }
+    .modal-container .modal-content p {
+      margin: 0 0 5px 0; }
     .modal-container .modal-content header {
       background-color: #fff !important;
       color: #435d7d !important;

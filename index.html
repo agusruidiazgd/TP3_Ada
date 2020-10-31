@@ -19,7 +19,8 @@
         </header>
         
         <div class="input-container">
-            <input type="text" placeholder="Filter...">
+            <input id="input-filter-user" type="text" placeholder="Filter...">
+            <button id="btn-filter-user">Filtrar</button>
         </div>
         <div class="table-container">
             <table id="table-content">
@@ -64,6 +65,33 @@
                 </footer>
             </div>
         </div>
+
+        <div id="modal-delete" class="modal-container employees">
+            <div class="overlay"></div>
+            <div class="modal-content">
+                <header>
+                    <h2>Are you sure to delete?</h2>
+                </header>
+                <form>
+                    <label for="name">Name</label>
+                    <p id="delete-name"></p>  
+
+                    <label for="email">Email</label>
+                    <p id="delete-email"></p> 
+
+                    <label for="address">Address</label>
+                    <p id="delete-address"></p> 
+                    
+                    <label for="phone">Phone</label>
+                    <p id="delete-phone"></p> 
+                </form>
+                <footer>
+                    <button type="button" id="cancel-delete" class="btn cancel-btn">Cancel</button>
+                    <button type="button" id="confirm-delete" class="btn">Accept</button>
+                </footer>
+            </div>
+        </div>
+
     </main>
     
 </body>
