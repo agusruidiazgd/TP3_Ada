@@ -1,3 +1,9 @@
+////PENDIENTE////
+//revisar estilo textarea que queda azul después de ingresado un dato
+//revisar outlines inputs modales segun mockup (no tiene)
+//metemos la animación de mora en el delete?
+//boton cancel no borra datos pero si lo ponemos en close modal rompe!
+
 let datos = [];
 
 //*****************************************//
@@ -12,29 +18,60 @@ const showModalDelete = () =>{
 let isEditModal = false
 
 const showModal = () => {
+
     const modal = document.querySelector(".modal-container");
     if (isEditModal) {
         document.querySelector("#title-modal").innerText = "Edit user";
-        document.querySelector("#add-button").innerText = "Save";
-        editarFila();
+        document.querySelector("#add-button").style.display = "none";
+        document.querySelector("#edit-button").style.display = "inline-block";
+    
         isEditModal = false;
     }
     else {
         document.querySelector("#title-modal").innerText = "Add new employee";
-        document.querySelector("#add-button").innerText = "Add";
+        document.querySelector("#edit-button").style.display = "none";
+        document.querySelector("#add-button").style.display = "inline-block";
     }
     modal.style.display = "flex";  
 }
 
 const closeModal = () => {
     const modals = document.querySelectorAll(".modal-container");
-    modals.forEach(modal => modal.style.display = "none")
+    modals.forEach(modal => modal.style.display = "none");
+    //clearInputs();
 }
 
 
 //*****************************************//
-////////FUNCIONES PARA LIMPIAR INPUTS////////
+////////////FUNCIONES AUXILIARES/////////////
 //*****************************************//
+
+const inputValidator = () => {
+    const fullname = document.querySelector("#input-name").value;
+    const email = document.querySelector("#input-email").value;
+    const address = document.querySelector("#input-address").value;
+    const phone = document.querySelector("#input-phone").value;
+
+
+    const emailValidator = email.search("@");
+    const validPhoneChars = [" ", "-", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
+    const phoneToArray = phone.split("");
+
+    if (fullname.length > 50) throw new Error("El máximo de caracteres es 50.");
+        if (address.length > 60) throw new Error("El máximo de caracteres es 60."); 
+        if (emailValidator === -1) throw new Error("El correo debe incluir el caracter @");
+        phoneToArray.forEach(i => {
+            if (validPhoneChars.indexOf(i) == -1) throw new Error("El número ingresado no tiene formato válido.");
+        });
+
+    const data = {
+        fullname,
+        phone,
+        email,
+        address
+    };
+    return data;
+}
 
 const clearInputs = () => {
     document.querySelector("#input-name").value = ""; 
@@ -69,19 +106,20 @@ const eliminarTodasLasFilas = (fila) =>{
 }
 
 //******************************************//
-///////FUNCIONES PARA CARGAR DATOS API////////
+///////FUNCIONES PARA LEVANTAR DATOS API//////
 //******************************************//
 
 const crearFila = (dato) =>{
     const tbody = document.querySelector(`#tbody`);
     
     const trow = document.createElement("tr");
-    trow.className = 'tr-style'; // TODO: estilar tr-style !!!!!!!!!!!!!!!!!!!!!!!!!!
+    trow.className = 'tr-style';
     trow.id = `user-${dato.id}`;
     const tCheckbox = document.createElement('td');
-    const checkbox = document.createElement('input');
-    checkbox.type = 'checkbox';
+    tCheckbox.style.paddingLeft = "20px"
 
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';    
 
     const tName = document.createElement('td');
     tName.innerText = dato.fullname; 
@@ -109,20 +147,11 @@ const crearFila = (dato) =>{
             showModal();
             document.querySelector('#input-name').value = dato.fullname;
             document.querySelector('#input-email').value = dato.email;
-            document.querySelector('#input-address').innerText = dato.address;
+            document.querySelector('#input-address').value = dato.address;
             document.querySelector('#input-phone').value = dato.phone;
 
-            //RENOMBRAR ADD BUTTON EN HTML Y TODAS LAS OTRAS
-            document.querySelector('#add-button').addEventListener('click', (e) => {
-
-                /*let el = document.querySelector("#miId")
-                el.addEventListener("keyup", (event) => { // keypress, keydown
-                    console.log(event.target == el);
-                }); */           
-            //////PENDIENTE /////
-            console.log(e);
-            editarFila(dato.id);//saco del html
-            editarDato(dato);//editar info de la api REVISARRR!!
+            document.querySelector('#edit-button').addEventListener('click', () => {
+                editEmployee(dato.id);
             })
         } 
     );
@@ -153,9 +182,7 @@ const crearFila = (dato) =>{
             closeModal();
         })
 
-        document.querySelector('#cancel-delete').addEventListener('click', closeModal);
-            
-
+        document.querySelector('#cancel-delete').addEventListener('click', closeModal);        
     });
 
     buttonEdit.appendChild(iEdit);
@@ -189,24 +216,32 @@ const cargarDatos = async () =>{
 //******************************************//
 ///////FUNCIONES PARA EDITAR DATOS////////////
 //******************************************//
-const editarFila = (idUser) => {
-    //alert(idUser);
-    //let newName = document.querySelector('#name-${idUser}')
-    //newName.innerText = document.querySelector('#input-name').value
+const editEmployee = async (idUser) => {
+
+    try {
+        const data = inputValidator();
+
+        let tdName = document.querySelector(`#name-${idUser}`);
+        tdName.innerText = data.fullname;
     
+        let tdEmail = document.querySelector(`#email-${idUser}`);
+        tdEmail.innerText = data.email;
+    
+        let tdAddress = document.querySelector(`#address-${idUser}`);
+        tdAddress.innerText = data.address;
+    
+        let tdPhone = document.querySelector(`#phone-${idUser}`);
+        tdPhone.innerText = data.phone;
 
-
-    //const phone = `phone-${dato.id}`;
-    //alert(phone);
-    //const user = document.querySelector(`#user-${idUser}`);
-    //const userArray = user.childNodes;
-    //userArray[1].style.backgroundColor = "yellow";
-    //console.log(userAEditar);
-    // AGREGAR ACA LA FUNCION EDIT!    
-/*
-    tEmail.id = `email-${dato.id}`;
-    tAddress.id = `address-${dato.id}`;
-    tPhone.id = `phone-${dato.id}`;*/
+        const res = await axios.put(`https://5f7c70d600bd74001690ac5e.mockapi.io/users/${idUser}`, data);
+        console.log(res);
+    } 
+    catch(err) {
+        console.log('ERROR AL EDITAR EMPLOYEE:',err);
+    } 
+    finally {
+        clearInputs();
+    }
 }
 
 //******************************************//
@@ -242,37 +277,10 @@ const filtrarUsuarios = () =>{
 /////FUNCIONES PARA AGREGAR NUEVOS DATOS//////
 //******************************************//
 
-////PENDIENTE////
-//revisar estilo textarea que queda azul después de ingresado un dato
-//revisar finally después de error, no se limpian los inputs
-
 const addEmployee = async () => {
-    const fullname = document.querySelector("#input-name").value;
-    const email = document.querySelector("#input-email").value;
-    const address = document.querySelector("#input-address").value;
-    const phone = document.querySelector("#input-phone").value;
-
-    if (fullname.length > 50) throw new Error("El máximo de caracteres es 50.");
-    if (address.length > 60) throw new Error("El máximo de caracteres es 60.");    
-    
-    const emailValidator = email.search("@");
-    if (emailValidator === -1) throw new Error("El correo debe incluir el caracter @");
-
-    const validPhoneChars = [" ", "-", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
-    const phoneToArray = phone.split("");
-
-    phoneToArray.forEach(i => {
-        if (validPhoneChars.indexOf(i) == -1) throw new Error("El número ingresado no tiene formato válido.");
-    });
-
     try {
-        const postData = {
-            fullname,
-            phone,
-            email,
-            address
-        };
-        const res = await axios.post("https://5f7c70d600bd74001690ac5e.mockapi.io/users", postData);
+        const data = inputValidator();
+        const res = await axios.post("https://5f7c70d600bd74001690ac5e.mockapi.io/users", data);
         const newEmployee = res.data;
         crearFila(newEmployee);
     } 
@@ -293,11 +301,11 @@ const onLoad = () => {
 
     document.querySelector("#btn-filter-user").addEventListener("click",filtrarUsuarios);
 
-    const addEmployeeButton = document.querySelector('#add-employee-button'); 
-    addEmployeeButton.addEventListener("click", () => showModal());
-
     const addButton = document.querySelector('#add-button'); 
     addButton.addEventListener("click", () => addEmployee());
+
+    const addEmployeeButton = document.querySelector('#add-employee-button'); 
+    addEmployeeButton.addEventListener("click", () => showModal());
 
     const closeButtons = document.querySelectorAll('.close'); 
     closeButtons.forEach(btn => {

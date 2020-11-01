@@ -10,6 +10,10 @@
     justify-content: center;
     cursor: pointer;
     padding: $padding-xxs $padding-xs;
+    &#btn-filter-user {
+        margin-left: 10px;
+        width: 100px;
+    }
     &:focus, &:active{
         outline: none; 
     }
@@ -23,21 +27,32 @@
 }
 
 .btn-green, .btn-red {
-    width: 38px;
-    height: 38px;
+    width: 34px;
+    height: 34px;
     padding: 4px;
     border-radius: 50%;
     border: none;
     cursor: pointer;
     background-color: $color-green;
     color:white;
-    margin: 5px;
+    &:focus, &:active{
+        outline: none;
+    }
+    &:hover {
+        background-color: darken(#5cb85c, 10%);
+    }
     i {
         font-size: 18px;
     }
-    
+.btn-green {
+    margin: 5px 5px 5px 0;
+}    
    
 }
 .btn-red {
+    margin: 5px;
     background-color:#B71C1C;
+    &:hover {
+        background-color: darken(#B71C1C, 10%);
+    }
 }
