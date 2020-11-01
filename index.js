@@ -1,5 +1,9 @@
 let datos = [];
 
+//*****************************************//
+/////FUNCIONES PARA ABRIR/CERRAR MODALS//////
+//*****************************************//
+
 const showModalDelete = () =>{
     const modal = document.querySelector('#modal-delete');
     modal.style.display = "flex";
@@ -27,6 +31,22 @@ const closeModal = () => {
     modals.forEach(modal => modal.style.display = "none")
 }
 
+
+//*****************************************//
+////////FUNCIONES PARA LIMPIAR INPUTS////////
+//*****************************************//
+
+const clearInputs = () => {
+    document.querySelector("#input-name").value = ""; 
+    document.querySelector("#input-email").value = "";
+    document.querySelector("#input-address").value = "";
+    document.querySelector("#input-phone").value = "";
+}
+
+//*****************************************//
+////////FUNCIONES PARA ELIMINAR DATOS////////
+//*****************************************//
+
 const eliminarDato = async (dato) =>{
     try{
         const res = await axios.delete(`https://5f7c70d600bd74001690ac5e.mockapi.io/users/${dato.id}`)
@@ -35,6 +55,22 @@ const eliminarDato = async (dato) =>{
         console.log(err);
     }
 }
+
+const eliminarFila = (idUser) => {
+    const userAeliminar = document.querySelector(`#user-${idUser}`);
+    userAeliminar.remove();
+}
+
+const eliminarTodasLasFilas = (fila) =>{
+    let list = document.querySelectorAll(fila);
+    for(let i of list){
+        i.remove();
+    }
+}
+
+//******************************************//
+///////FUNCIONES PARA CARGAR DATOS API////////
+//******************************************//
 
 const crearFila = (dato) =>{
     const tbody = document.querySelector(`#tbody`);
@@ -49,15 +85,19 @@ const crearFila = (dato) =>{
 
     const tName = document.createElement('td');
     tName.innerText = dato.fullname; 
+    tName.id = `name-${dato.id}`;
 
     const tEmail = document.createElement('td');
     tEmail.innerText = dato.email; 
+    tEmail.id = `email-${dato.id}`;
 
     const tAddress = document.createElement('td');
     tAddress.innerText = dato.address;
+    tAddress.id = `address-${dato.id}`;
 
     const tPhone = document.createElement('td');
     tPhone.innerText = dato.phone;
+    tPhone.id = `phone-${dato.id}`;
 
     const tAction = document.createElement('td'); //TODO: poner icono boton etc !!!!!!!!!!!!
 
@@ -73,9 +113,14 @@ const crearFila = (dato) =>{
             document.querySelector('#input-phone').value = dato.phone;
 
             //RENOMBRAR ADD BUTTON EN HTML Y TODAS LAS OTRAS
-            document.querySelector('#add-button').addEventListener('click', ()=>{
-            
+            document.querySelector('#add-button').addEventListener('click', (e) => {
+
+                /*let el = document.querySelector("#miId")
+                el.addEventListener("keyup", (event) => { // keypress, keydown
+                    console.log(event.target == el);
+                }); */           
             //////PENDIENTE /////
+            console.log(e);
             editarFila(dato.id);//saco del html
             editarDato(dato);//editar info de la api REVISARRR!!
             })
@@ -141,26 +186,32 @@ const cargarDatos = async () =>{
     }
 }
 
-const eliminarFila = (idUser) => {
-    const userAeliminar = document.querySelector(`#user-${idUser}`);
-    userAeliminar.remove();
-}
-
-const eliminarTodasLasFilas = (fila) =>{
-    let list = document.querySelectorAll(fila);
-    for(let i of list){
-        i.remove();
-    }
-}
-
-////////// FUNCIÓN EDIT USER /////////////
+//******************************************//
+///////FUNCIONES PARA EDITAR DATOS////////////
+//******************************************//
 const editarFila = (idUser) => {
-    const userAEditar = document.querySelector(`#user-${idUser}`);
-    console.log(userAEditar);
+    //alert(idUser);
+    //let newName = document.querySelector('#name-${idUser}')
+    //newName.innerText = document.querySelector('#input-name').value
+    
 
 
+    //const phone = `phone-${dato.id}`;
+    //alert(phone);
+    //const user = document.querySelector(`#user-${idUser}`);
+    //const userArray = user.childNodes;
+    //userArray[1].style.backgroundColor = "yellow";
+    //console.log(userAEditar);
     // AGREGAR ACA LA FUNCION EDIT!    
+/*
+    tEmail.id = `email-${dato.id}`;
+    tAddress.id = `address-${dato.id}`;
+    tPhone.id = `phone-${dato.id}`;*/
 }
+
+//******************************************//
+///////FUNCIONES PARA FILTRAR DATOS///////////
+//******************************************//
 
 const filtrarDatos = async (searchParam) =>{
     try{
@@ -187,6 +238,14 @@ const filtrarUsuarios = () =>{
     filtrarDatos(searchParam);
 }
 
+//******************************************//
+/////FUNCIONES PARA AGREGAR NUEVOS DATOS//////
+//******************************************//
+
+////PENDIENTE////
+//revisar estilo textarea que queda azul después de ingresado un dato
+//revisar finally después de error, no se limpian los inputs
+
 const addEmployee = async () => {
     const fullname = document.querySelector("#input-name").value;
     const email = document.querySelector("#input-email").value;
@@ -199,13 +258,12 @@ const addEmployee = async () => {
     const emailValidator = email.search("@");
     if (emailValidator === -1) throw new Error("El correo debe incluir el caracter @");
 
-    const validPhoneChars = [" ", "-", 1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
+    const validPhoneChars = [" ", "-", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
     const phoneToArray = phone.split("");
-    
-    //REVISAR VALIDACION!!!!
-    //phoneToArray.forEach(i => {
-    //  if (validPhoneChars.findIndex(validChar => phoneToArray.includes(validChar)) == false) throw new Error("El número ingresado no tiene formato válido."); 
-    //});
+
+    phoneToArray.forEach(i => {
+        if (validPhoneChars.indexOf(i) == -1) throw new Error("El número ingresado no tiene formato válido.");
+    });
 
     try {
         const postData = {
@@ -217,10 +275,18 @@ const addEmployee = async () => {
         const res = await axios.post("https://5f7c70d600bd74001690ac5e.mockapi.io/users", postData);
         const newEmployee = res.data;
         crearFila(newEmployee);
-    } catch(err) {
+    } 
+    catch(err) {
         console.log('ERROR AL CARGAR NEW EMPLOYEE:',err);
+    } 
+    finally {
+        clearInputs();
     }
 }
+
+//******************************************//
+////////////ONLOAD + EVENT LISTENERS//////////
+//******************************************//
 
 const onLoad = () => {
     cargarDatos();
@@ -237,8 +303,5 @@ const onLoad = () => {
     closeButtons.forEach(btn => {
         btn.addEventListener("click", () => closeModal());
     })
-
-    // document.querySelector('#confirm-delete').addEventListener('click', closeModal);
-    // document.querySelector('#cancel-delete').addEventListener('click', closeModal);
 }
 
