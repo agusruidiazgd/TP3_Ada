@@ -20,14 +20,14 @@
         
         <div class="input-container">
             <input id="input-filter-user" type="text" placeholder="Filter...">
-            <button id="btn-filter-user">Filtrar</button>
+            <button id="btn-filter-user" class="btn">Filter</button>
         </div>
         <div class="table-container">
             <table id="table-content">
                 <thead>
                     <tr>
                         <th class="input-table">
-                            <input type="checkbox">
+                            <input class="input-style" type="checkbox">
                         </th>
                         <th class="thead name">Name</th>
                         <th class="thead email">Email</th>
@@ -43,7 +43,7 @@
             <div class="overlay"></div>
             <div class="modal-content">
                 <header>
-                    <h2>Add Employee</h2>
+                    <h2 id="title-modal"></h2>
                     <button type="button" class="close-modal-btn close">✕</button>
                 </header>
                 <form>
@@ -62,6 +62,7 @@
                 <footer>
                     <button type="button" class="btn cancel-btn close">Cancel</button>
                     <button id="add-button" type="button" class="btn close">Add</button>
+                    <button id="edit-button" type="button" class="btn close">Edit</button>
                 </footer>
             </div>
         </div>

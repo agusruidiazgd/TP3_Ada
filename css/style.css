@@ -43,6 +43,9 @@
   justify-content: center;
   cursor: pointer;
   padding: 4px 6px; }
+  .btn#btn-filter-user {
+    margin-left: 10px;
+    width: 100px; }
   .btn:focus, .btn:active {
     outline: none; }
   .btn:hover {
@@ -52,20 +55,28 @@
     margin-right: 5px; }
 
 .btn-green, .btn-red {
-  width: 38px;
-  height: 38px;
+  width: 34px;
+  height: 34px;
   padding: 4px;
   border-radius: 50%;
   border: none;
   cursor: pointer;
   background-color: #5cb85c;
-  color: white;
-  margin: 5px; }
+  color: white; }
+  .btn-green:focus, .btn-green:active, .btn-red:focus, .btn-red:active {
+    outline: none; }
+  .btn-green:hover, .btn-red:hover {
+    background-color: #449d44; }
   .btn-green i, .btn-red i {
     font-size: 18px; }
+  .btn-green .btn-green, .btn-red .btn-green {
+    margin: 5px 5px 5px 0; }
 
 .btn-red {
+  margin: 5px;
   background-color: #B71C1C; }
+  .btn-red:hover {
+    background-color: #8b1515; }
 
 .table-container {
   padding: 0 25px 25px 25px; }
@@ -93,7 +104,7 @@
         width: 100px; }
     .table-container #table-content .input-table {
       width: 60px; }
-      .table-container #table-content .input-table input {
+      .table-container #table-content .input-table .input-style {
         width: 13px;
         height: 13px; }
     .table-container #table-content td:first-child {
@@ -149,6 +160,8 @@
           outline: none; }
         .modal-container .modal-content header .close-modal-btn:hover {
           color: #b3b3b3; }
+    .modal-container .modal-content form textarea:-webkit-autofill {
+      -webkit-text-fill-background-color: #fff !important; }
     .modal-container .modal-content footer {
       display: flex;
       justify-content: flex-end;

@@ -51,6 +51,11 @@
                 }
             }
         }
+        /*form {
+            textarea:-webkit-autofill {
+                -webkit-text-fill-background-color: $color-white !important;    
+            }*/ //REVISAR!!!!!
+        }
         footer {
             display: flex;
             justify-content: flex-end;
