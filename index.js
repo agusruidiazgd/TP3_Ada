@@ -42,8 +42,7 @@ const showModal = (event) => {
         document.querySelector("#title-modal").innerText = "Add new employee";
         document.querySelector("#edit-button").style.display = "none";
         document.querySelector("#add-button").style.display = "inline-block";
-    }
-    
+    }    
 }
 
 const closeModal = () => {
@@ -62,7 +61,6 @@ const inputValidator = () => {
     const address = document.querySelector("#input-address").value;
     const phone = document.querySelector("#input-phone").value;
 
-    const emailValidator = email.search("@");
     const validPhoneChars = [" ", "-", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
     const phoneToArray = phone.split("");
 
@@ -70,7 +68,7 @@ const inputValidator = () => {
 
     if (address.length > 60) throw new Error("El máximo de caracteres es 60."); 
     
-    if (emailValidator === -1) throw new Error("El correo debe incluir el caracter @");
+    if (email.search("@") === -1) throw new Error("El correo debe incluir el caracter @");
     
     phoneToArray.forEach(i => {
         if (validPhoneChars.indexOf(i) == -1) throw new Error("El número ingresado no tiene formato válido.");
@@ -224,6 +222,7 @@ const editEmployee = async (idUser) => {
 
     try {
         const data = inputValidator();
+        console.log(data);
 
         let tdName = document.querySelector(`#name-${idUser}`);
         tdName.innerText = data.fullname;
@@ -315,6 +314,8 @@ const onLoad = () => {
     const closeButtons = document.querySelectorAll('.close'); 
     closeButtons.forEach(btn => {
         btn.addEventListener("click", () => closeModal());
-        btn.addEventListener("click", () => clearInputs());
-    })
+    });
+
+    const cancelButton = document.querySelector(".cancel-btn");
+    cancelButton.addEventListener("click", () => clearInputs());
 }
