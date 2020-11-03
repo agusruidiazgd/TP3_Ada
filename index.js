@@ -1,29 +1,40 @@
-////PENDIENTE////
-//revisar estilo textarea que queda azul después de ingresado un dato
-//revisar outlines inputs modales segun mockup (no tiene)
-//metemos la animación de mora en el delete?
-//boton cancel no borra datos pero si lo ponemos en close modal rompe!
-
 let datos = [];
 
 //*****************************************//
 /////FUNCIONES PARA ABRIR/CERRAR MODALS//////
 //*****************************************//
 
-const showModalDelete = () =>{
+const showModalDelete = (event) =>{
     const modal = document.querySelector('#modal-delete');
     modal.style.display = "flex";
+
+    const target = event.target.parentElement;
+    const id = target.id;
+
+    document.querySelector('#delete-name').innerText = document.querySelector(`#name-${id}`).innerText;
+    document.querySelector('#delete-email').innerText = document.querySelector(`#email-${id}`).innerText;
+    document.querySelector('#delete-address').innerText = document.querySelector(`#address-${id}`).innerText;
+    document.querySelector('#delete-phone').innerText = document.querySelector(`#phone-${id}`).innerText;
 }
 
 let isEditModal = false
 
-const showModal = () => {
-
+const showModal = (event) => {
     const modal = document.querySelector(".modal-container");
+    modal.style.display = "flex";  
+    
     if (isEditModal) {
         document.querySelector("#title-modal").innerText = "Edit user";
         document.querySelector("#add-button").style.display = "none";
         document.querySelector("#edit-button").style.display = "inline-block";
+        
+        const target = event.target.parentElement;
+        const id = target.id;
+
+        document.querySelector('#input-name').value = document.querySelector(`#name-${id}`).innerText;
+        document.querySelector('#input-email').value = document.querySelector(`#email-${id}`).innerText;
+        document.querySelector('#input-address').value = document.querySelector(`#address-${id}`).innerText;
+        document.querySelector('#input-phone').value = document.querySelector(`#phone-${id}`).innerText;
     
         isEditModal = false;
     }
@@ -32,13 +43,12 @@ const showModal = () => {
         document.querySelector("#edit-button").style.display = "none";
         document.querySelector("#add-button").style.display = "inline-block";
     }
-    modal.style.display = "flex";  
+    
 }
 
 const closeModal = () => {
     const modals = document.querySelectorAll(".modal-container");
     modals.forEach(modal => modal.style.display = "none");
-    //clearInputs();
 }
 
 
@@ -52,18 +62,20 @@ const inputValidator = () => {
     const address = document.querySelector("#input-address").value;
     const phone = document.querySelector("#input-phone").value;
 
-
     const emailValidator = email.search("@");
     const validPhoneChars = [" ", "-", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
     const phoneToArray = phone.split("");
 
     if (fullname.length > 50) throw new Error("El máximo de caracteres es 50.");
-        if (address.length > 60) throw new Error("El máximo de caracteres es 60."); 
-        if (emailValidator === -1) throw new Error("El correo debe incluir el caracter @");
-        phoneToArray.forEach(i => {
-            if (validPhoneChars.indexOf(i) == -1) throw new Error("El número ingresado no tiene formato válido.");
-        });
 
+    if (address.length > 60) throw new Error("El máximo de caracteres es 60."); 
+    
+    if (emailValidator === -1) throw new Error("El correo debe incluir el caracter @");
+    
+    phoneToArray.forEach(i => {
+        if (validPhoneChars.indexOf(i) == -1) throw new Error("El número ingresado no tiene formato válido.");
+    })
+    
     const data = {
         fullname,
         phone,
@@ -137,18 +149,15 @@ const crearFila = (dato) =>{
     tPhone.innerText = dato.phone;
     tPhone.id = `phone-${dato.id}`;
 
-    const tAction = document.createElement('td'); //TODO: poner icono boton etc !!!!!!!!!!!!
+    const tAction = document.createElement('td');
 
     const buttonEdit = document.createElement('button');
     buttonEdit.classList.add("btn-green");
     buttonEdit.classList.add("btn-edit");
-    buttonEdit.addEventListener("click", () => {
+    buttonEdit.id = `${dato.id}`;
+    buttonEdit.addEventListener("click", (event) => {
             isEditModal = true;
-            showModal();
-            document.querySelector('#input-name').value = dato.fullname;
-            document.querySelector('#input-email').value = dato.email;
-            document.querySelector('#input-address').value = dato.address;
-            document.querySelector('#input-phone').value = dato.phone;
+            showModal(event);
 
             document.querySelector('#edit-button').addEventListener('click', () => {
                 editEmployee(dato.id);
@@ -163,19 +172,14 @@ const crearFila = (dato) =>{
 
     const buttonDelete = document.createElement('button');
     buttonDelete.classList.add("btn-red");
+    buttonDelete.id = `${dato.id}`;
     const iDelete = document.createElement('i');
     iDelete.innerHTML = "&#xE872;";
     iDelete.classList.add("material-icons");
     iDelete.title="Delete";
 
-    buttonDelete.addEventListener("click", () => {
-        showModalDelete();
-
-        document.querySelector('#delete-name').innerText = dato.fullname;
-        document.querySelector('#delete-email').innerText = dato.email;
-        document.querySelector('#delete-address').innerText = dato.address;
-        document.querySelector('#delete-phone').innerText = dato.phone;
-        
+    buttonDelete.addEventListener("click", (event) => {
+        showModalDelete(event);        
         document.querySelector('#confirm-delete').addEventListener('click', ()=>{
             eliminarFila(dato.id);//saco del html
             eliminarDato(dato);//elimino info de la api
@@ -253,7 +257,6 @@ const filtrarDatos = async (searchParam) =>{
         const res = await axios.get(`https://5f7c70d600bd74001690ac5e.mockapi.io/users/?search=${searchParam}`);
         eliminarTodasLasFilas('.tr-style');
         datos = res.data;
-        console.log(datos);
         datos.map( dato =>{
             crearFila(dato);
         })
@@ -264,12 +267,14 @@ const filtrarDatos = async (searchParam) =>{
 
 const filtrarUsuarios = () =>{
     const searchParam = document.querySelector("#input-filter-user").value.toLowerCase();
-    console.log(searchParam);
     if(searchParam.length == 0) {
         eliminarTodasLasFilas('.tr-style');
         cargarDatos();
     }
-    if(searchParam.length < 3) return; 
+    if(searchParam.length < 3 && searchParam.length > 0) {
+        alert("Ingresar al menos tres caracteres para poder filtrar.")
+        return;
+    } 
     filtrarDatos(searchParam);
 }
 
@@ -305,11 +310,11 @@ const onLoad = () => {
     addButton.addEventListener("click", () => addEmployee());
 
     const addEmployeeButton = document.querySelector('#add-employee-button'); 
-    addEmployeeButton.addEventListener("click", () => showModal());
+    addEmployeeButton.addEventListener("click", (event) => showModal(event));
 
     const closeButtons = document.querySelectorAll('.close'); 
     closeButtons.forEach(btn => {
         btn.addEventListener("click", () => closeModal());
+        btn.addEventListener("click", () => clearInputs());
     })
 }
-

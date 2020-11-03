@@ -160,8 +160,6 @@
           outline: none; }
         .modal-container .modal-content header .close-modal-btn:hover {
           color: #b3b3b3; }
-    .modal-container .modal-content form textarea:-webkit-autofill {
-      -webkit-text-fill-background-color: #fff !important; }
     .modal-container .modal-content footer {
       display: flex;
       justify-content: flex-end;
@@ -208,6 +206,9 @@
       .modal-container .modal-content form textarea {
         height: 54px; }
 
+/*.animate__animated &.animate__fadeInDown {
+    -o-animation-delay: 1s;
+}*/
 body {
   background-color: #f5f5f5;
   font-family: "Varela Round", sans-serif;

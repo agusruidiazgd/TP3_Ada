@@ -3,6 +3,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
@@ -15,7 +16,7 @@
             <h1>Manage <b>Employees</b></h1>
             <button id="add-employee-button" class="btn green" type="button">
                 <i class="material-icons">&#xE147;</i>
-                Add New Employees</button>
+                Add New Employee</button>
         </header>
         
         <div class="input-container">
@@ -41,7 +42,7 @@
         </div>
         <div class="modal-container employees">
             <div class="overlay"></div>
-            <div class="modal-content">
+            <div class="modal-content animate__animated animate__fadeInDown animate__delay-0.2s">
                 <header>
                     <h2 id="title-modal"></h2>
                     <button type="button" class="close-modal-btn close">✕</button>
